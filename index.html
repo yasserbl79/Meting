@@ -7,14 +7,14 @@
     <!-- تضمين Tailwind CSS من CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* استيراد خط Inter ليكون الخط الأساسي */
+        /* استيراد خط Inter ليكون الخط الأساسي */
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         
         /* تطبيق الخط على كامل الصفحة وتحديد الاتجاه */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #eef2f9; /* لون خلفية ناعم */
-            color: #374151; /* لون النص الأساسي */
+            background-color: #111827; /* لون خلفية داكن */
+            color: #d1d5db; /* لون نص فاتح للوضوح */
             direction: rtl;
             text-align: right;
         }
@@ -26,31 +26,7 @@
             padding: 2rem;
         }
 
-        /* تنسيق بطاقة (Card) التطبيق */
-        .card {
-            background-color: white;
-            border-radius: 1.5rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-            padding: 2.5rem;
-        }
-
-        /* تنسيق حقول الإدخال */
-        .form-input {
-            width: 100%;
-            padding: 0.8rem 1.25rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.75rem;
-            transition: all 0.3s ease-in-out;
-            background-color: #f9fafb;
-        }
-        .form-input:focus {
-            outline: none;
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.25);
-            background-color: white;
-        }
-
-        /* تنسيق الأزرار */
+        /* تنسيق الأزرار مع تأثيرات احترافية */
         .btn {
             font-weight: 600;
             padding: 0.75rem 2rem;
@@ -62,14 +38,16 @@
             justify-content: center;
             text-align: center;
             line-height: 1.5;
+            white-space: nowrap;
         }
         .btn-primary {
-            background-color: #3b82f6; /* أزرق جذاب */
+            background-color: #6366f1; /* أزرق جذاب */
             color: white;
         }
         .btn-primary:hover {
-            background-color: #2563eb;
+            background-color: #4f46e5;
             transform: translateY(-2px);
+            box-shadow: 0 6px 10px -1px rgba(0, 0, 0, 0.15), 0 4px 6px -2px rgba(0, 0, 0, 0.1);
         }
         .btn-green {
             background-color: #10b981;
@@ -77,6 +55,7 @@
         }
         .btn-green:hover {
             background-color: #059669;
+            transform: translateY(-2px);
         }
         .btn-red {
             background-color: #ef4444;
@@ -84,32 +63,35 @@
         }
         .btn-red:hover {
             background-color: #dc2626;
+            transform: translateY(-2px);
         }
         .btn-gray {
-            background-color: #e5e7eb;
-            color: #4b5563;
+            background-color: #4b5563;
+            color: #e5e7eb;
         }
         .btn-gray:hover {
-            background-color: #d1d5db;
+            background-color: #374151;
+            transform: translateY(-2px);
         }
-        
+
         /* تنسيق الجدول */
         .table-header th {
             padding: 1.25rem 1rem;
-            background-color: #f3f4f6;
-            color: #4b5563;
+            background-color: #374151;
+            color: #d1d5db;
             font-weight: 700;
             font-size: 0.875rem;
             text-align: right;
-            border-bottom: 2px solid #e5e7eb;
+            border-bottom: 2px solid #4b5563;
         }
         .table-row td {
             padding: 1rem;
-            border-bottom: 1px solid #e5e7eb;
+            border-bottom: 1px solid #4b5563;
             vertical-align: middle;
         }
         .table-row:hover {
-            background-color: #f9fafb;
+            background-color: #1f2937;
+            transition: background-color 0.2s ease;
         }
 
         /* تنسيق نافذة التأكيد (Modal) */
@@ -122,17 +104,22 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.7); /* لون خلفية داكن ومخفف */
             justify-content: center;
             align-items: center;
         }
         .modal-content {
-            background-color: #fefefe;
+            background-color: #1f2937;
             padding: 2rem;
             border-radius: 1rem;
             text-align: center;
             max-width: 450px;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
         }
     </style>
 </head>
@@ -141,23 +128,26 @@
 <div class="container">
 
     <!-- قائمة الاجتماعات -->
-    <div id="list-view" class="card">
-        <h1 class="text-4xl md:text-5xl font-bold text-center text-gray-800 mb-10">إدارة الاجتماعات</h1>
+    <div id="list-view" class="bg-gray-800 rounded-3xl shadow-xl p-8 md:p-12 mb-8">
+        <h1 class="text-4xl md:text-5xl font-bold text-center text-white mb-10">إدارة الاجتماعات</h1>
         <div class="text-center mb-10">
             <button id="add-meeting-btn" class="btn btn-primary text-lg">
-                <span class="ml-2">➕</span> إضافة اجتماع جديد
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span>إضافة اجتماع جديد</span>
             </button>
         </div>
-        <div class="overflow-x-auto rounded-lg shadow-inner">
+        <div class="overflow-x-auto rounded-xl shadow-inner border border-gray-700">
             <table class="min-w-full">
                 <thead>
                     <tr class="table-header">
-                        <th>عنوان الاجتماع</th>
+                        <th class="rounded-tr-xl">عنوان الاجتماع</th>
                         <th>التاريخ</th>
                         <th>الوقت</th>
                         <th>المكان</th>
                         <th>الحضور</th>
-                        <th class="text-left">الإجراءات</th>
+                        <th class="rounded-tl-xl text-left">الإجراءات</th>
                     </tr>
                 </thead>
                 <tbody id="meetings-table-body">
@@ -168,60 +158,76 @@
     </div>
 
     <!-- نموذج إضافة/تعديل اجتماع -->
-    <div id="add-edit-view" class="card hidden">
-        <h2 id="form-title" class="text-3xl font-bold text-center text-gray-800 mb-8">إضافة اجتماع جديد</h2>
+    <div id="add-edit-view" class="bg-gray-800 rounded-3xl shadow-xl p-8 md:p-12 hidden">
+        <h2 id="form-title" class="text-3xl font-bold text-center text-white mb-8">إضافة اجتماع جديد</h2>
         <form id="meeting-form" class="space-y-6">
             <input type="hidden" id="meeting-id">
             <div>
-                <label for="title" class="block text-gray-700 font-semibold mb-2">عنوان الاجتماع</label>
-                <input type="text" id="title" name="title" class="form-input" required>
+                <label for="title" class="block text-gray-300 font-semibold mb-2">عنوان الاجتماع</label>
+                <input type="text" id="title" name="title" class="w-full px-5 py-3 border border-gray-600 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-700 text-white" required>
             </div>
             <div>
-                <label for="date-time" class="block text-gray-700 font-semibold mb-2">التاريخ والوقت</label>
-                <div class="flex gap-4">
-                    <input type="date" id="date" name="date" class="form-input" required>
-                    <input type="time" id="time" name="time" class="form-input" required>
+                <label for="date-time" class="block text-gray-300 font-semibold mb-2">التاريخ والوقت</label>
+                <div class="flex flex-col md:flex-row gap-4">
+                    <input type="date" id="date" name="date" class="w-full px-5 py-3 border border-gray-600 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-700 text-white" required>
+                    <input type="time" id="time" name="time" class="w-full px-5 py-3 border border-gray-600 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-700 text-white" required>
                 </div>
             </div>
             <div>
-                <label for="location" class="block text-gray-700 font-semibold mb-2">المكان (أو رابط الاجتماع)</label>
-                <input type="text" id="location" name="location" class="form-input" required>
+                <label for="location" class="block text-gray-300 font-semibold mb-2">المكان (أو رابط الاجتماع)</label>
+                <input type="text" id="location" name="location" class="w-full px-5 py-3 border border-gray-600 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-700 text-white" required>
             </div>
             <div>
-                <label for="attendees" class="block text-gray-700 font-semibold mb-2">قائمة الحضور (افصل بين الأسماء بفاصلة)</label>
-                <textarea id="attendees" name="attendees" rows="4" class="form-input" placeholder="مثال: أحمد, سارة، محمد"></textarea>
+                <label for="attendees" class="block text-gray-300 font-semibold mb-2">قائمة الحضور (افصل بين الأسماء بفاصلة)</label>
+                <textarea id="attendees" name="attendees" rows="4" class="w-full px-5 py-3 border border-gray-600 rounded-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 focus:border-indigo-400 bg-gray-700 text-white" placeholder="مثال: أحمد, سارة، محمد"></textarea>
             </div>
-            <div class="flex justify-center gap-4 mt-8">
-                <button type="submit" class="btn btn-green">حفظ الاجتماع</button>
+            <div class="flex flex-col md:flex-row justify-center gap-4 mt-8">
+                <button type="submit" class="btn btn-green">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M7.707 10.293a1 1 0 010-1.414l2-2a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-2-2a1 1 0 010-1.414z" />
+                        <path fill-rule="evenodd" d="M12.293 10l-2 2a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0l2 2a1 1 0 010 1.414z" clip-rule="evenodd" />
+                    </svg>
+                    <span>حفظ الاجتماع</span>
+                </button>
                 <button type="button" id="cancel-form-btn" class="btn btn-gray">إلغاء</button>
             </div>
         </form>
     </div>
 
     <!-- تفاصيل الاجتماع -->
-    <div id="view-details-view" class="card hidden">
-        <h2 class="text-3xl font-bold text-gray-800 mb-8 text-center">تفاصيل الاجتماع</h2>
-        <div class="space-y-6 text-gray-700 text-lg">
-            <p><span class="font-bold text-gray-900">عنوان الاجتماع:</span> <span id="view-title"></span></p>
-            <p><span class="font-bold text-gray-900">التاريخ:</span> <span id="view-date"></span></p>
-            <p><span class="font-bold text-gray-900">الوقت:</span> <span id="view-time"></span></p>
-            <p><span class="font-bold text-gray-900">المكان:</span> <span id="view-location"></span></p>
+    <div id="view-details-view" class="bg-gray-800 rounded-3xl shadow-xl p-8 md:p-12 hidden">
+        <h2 class="text-3xl font-bold text-gray-100 mb-8 text-center">تفاصيل الاجتماع</h2>
+        <div class="space-y-6 text-gray-300 text-lg">
+            <p><span class="font-bold text-gray-100">عنوان الاجتماع:</span> <span id="view-title"></span></p>
+            <p><span class="font-bold text-gray-100">التاريخ:</span> <span id="view-date"></span></p>
+            <p><span class="font-bold text-gray-100">الوقت:</span> <span id="view-time"></span></p>
+            <p><span class="font-bold text-gray-100">المكان:</span> <span id="view-location"></span></p>
             <div>
-                <span class="font-bold text-gray-900 block mb-2">الحضور:</span>
+                <span class="font-bold text-gray-100 block mb-2">الحضور:</span>
                 <ul id="view-attendees" class="list-disc pr-6 space-y-1"></ul>
             </div>
         </div>
-        <div class="flex justify-center gap-4 mt-8">
-            <button id="edit-details-btn" class="btn btn-primary">تعديل</button>
+        <div class="flex flex-col md:flex-row justify-center gap-4 mt-8">
+            <button id="edit-details-btn" class="btn btn-primary">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2" viewBox="0 0 20 20" fill="currentColor">
+                    <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L7.293 9.879l-4.437 4.437a1 1 0 00-.285.578l-1.077 4.316a.5.5 0 00.5.5c.16 0 .31-.059.439-.168l4.316-1.077a1 1 0 00.578-.285L14.207 8.621l-2.828-2.828z" />
+                </svg>
+                <span>تعديل</span>
+            </button>
             <button id="end-meeting-btn" class="btn btn-red">إنهاء الاجتماع</button>
-            <button id="back-to-list-btn" class="btn btn-gray">العودة للقائمة</button>
+            <button id="back-to-list-btn" class="btn btn-gray">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 ml-2 transform rotate-180" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+                </svg>
+                <span>العودة للقائمة</span>
+            </button>
         </div>
     </div>
     
     <!-- نافذة تأكيد مخصصة -->
     <div id="confirm-modal" class="modal">
         <div class="modal-content">
-            <p id="modal-message" class="text-xl text-gray-800 mb-6 font-semibold"></p>
+            <p id="modal-message" class="text-xl text-gray-200 mb-6 font-semibold"></p>
             <div class="flex justify-center gap-4">
                 <button id="confirm-yes-btn" class="btn btn-red">نعم</button>
                 <button id="confirm-no-btn" class="btn btn-gray">إلغاء</button>
@@ -232,25 +238,21 @@
 </div>
 
 <script>
-    // بيانات الاجتماعات الأولية
-    let meetings = [
-        {
-            id: '1',
-            title: 'اجتماع تطوير المنتج',
-            date: '2024-08-15',
-            time: '10:00',
-            location: 'مكتب رقم 5',
-            attendees: 'أحمد, سارة, محمد'
-        },
-        {
-            id: '2',
-            title: 'اجتماع الميزانية السنوية',
-            date: '2024-08-18',
-            time: '14:30',
-            location: 'رابط زوم: zoom.us/meeting/12345',
-            attendees: 'فاطمة, علي, نورة'
+    // **الجزء الخاص بتخزين البيانات محليًا (Local Storage)**
+    let meetings = [];
+    
+    // دالة لحفظ الاجتماعات في الذاكرة المحلية للمتصفح
+    function saveMeetings() {
+        localStorage.setItem('meetings', JSON.stringify(meetings));
+    }
+
+    // دالة لجلب الاجتماعات من الذاكرة المحلية
+    function loadMeetings() {
+        const storedMeetings = localStorage.getItem('meetings');
+        if (storedMeetings) {
+            meetings = JSON.parse(storedMeetings);
         }
-    ];
+    }
 
     // عناصر الواجهة الرسومية (DOM Elements)
     const listMeetingsView = document.getElementById('list-view');
@@ -290,7 +292,7 @@
     function renderMeetingsTable() {
         meetingsTableBody.innerHTML = '';
         if (meetings.length === 0) {
-            meetingsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-4 text-gray-500">لا توجد اجتماعات مجدولة.</td></tr>`;
+            meetingsTableBody.innerHTML = `<tr><td colspan="6" class="text-center py-6 text-gray-400 font-medium">لا توجد اجتماعات مجدولة حاليًا.</td></tr>`;
             return;
         }
 
@@ -303,10 +305,10 @@
                 <td>${meeting.time}</td>
                 <td>${meeting.location}</td>
                 <td>${meeting.attendees.split(',').filter(Boolean).length}</td>
-                <td class="flex gap-2">
-                    <button class="text-blue-600 hover:text-blue-800 transition-colors" onclick="viewMeeting('${meeting.id}')">عرض</button>
-                    <button class="text-green-600 hover:text-green-800 transition-colors" onclick="editMeeting('${meeting.id}')">تعديل</button>
-                    <button class="text-red-600 hover:text-red-800 transition-colors" onclick="confirmAction('${meeting.id}', 'delete')">حذف</button>
+                <td class="flex gap-2 justify-end">
+                    <button class="text-blue-400 hover:text-blue-300 transition-colors font-medium text-sm" onclick="viewMeeting('${meeting.id}')">عرض</button>
+                    <button class="text-green-400 hover:text-green-300 transition-colors font-medium text-sm" onclick="editMeeting('${meeting.id}')">تعديل</button>
+                    <button class="text-red-400 hover:text-red-300 transition-colors font-medium text-sm" onclick="confirmAction('${meeting.id}', 'delete')">حذف</button>
                 </td>
             `;
             meetingsTableBody.appendChild(row);
@@ -339,6 +341,10 @@
         confirmYesBtn.textContent = (actionType === 'delete') ? 'نعم، احذف' : 'نعم، قم بالإنهاء';
         modalMessage.textContent = (actionType === 'delete') ? 'هل أنت متأكد أنك تريد حذف هذا الاجتماع؟' : 'هل أنت متأكد أنك تريد إنهاء هذا الاجتماع؟';
         
+        // إزالة مستمعات الأحداث السابقة
+        confirmYesBtn.onclick = null;
+        confirmNoBtn.onclick = null;
+
         confirmYesBtn.onclick = () => {
             if (actionType === 'delete') {
                 deleteMeeting(id);
@@ -357,6 +363,7 @@
     // دالة لحذف اجتماع
     function deleteMeeting(id) {
         meetings = meetings.filter(m => m.id !== id);
+        saveMeetings(); // حفظ التغييرات
         renderMeetingsTable();
     }
 
@@ -377,6 +384,7 @@
 
     // معالجة الأحداث
     document.addEventListener('DOMContentLoaded', () => {
+        loadMeetings(); // تحميل البيانات عند فتح الصفحة
         showView('list');
     });
 
@@ -423,6 +431,7 @@
             meetings.push(newMeeting);
         }
 
+        saveMeetings(); // حفظ التغييرات
         showView('list');
     });
 </script>
